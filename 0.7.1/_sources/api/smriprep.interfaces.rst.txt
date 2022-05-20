@@ -10,6 +10,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 1
 
    smriprep.interfaces.freesurfer
    smriprep.interfaces.reports

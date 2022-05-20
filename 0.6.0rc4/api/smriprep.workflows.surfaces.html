@@ -4,17 +4,18 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>smriprep.workflows.surfaces module &mdash; smriprep 0.8.3 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>smriprep.workflows.surfaces module &mdash; smriprep 0.8.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -99,13 +100,13 @@
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/smriprep.workflows.surfaces.html"><b>Warning:</b> This document is for an old version of smriprep. The main version is master.</a></p>
 <section id="module-smriprep.workflows.surfaces">
-<span id="smriprep-workflows-surfaces-module"></span><h1>smriprep.workflows.surfaces module<a class="headerlink" href="#module-smriprep.workflows.surfaces" title="Permalink to this headline">¶</a></h1>
+<span id="smriprep-workflows-surfaces-module"></span><h1>smriprep.workflows.surfaces module<a class="headerlink" href="#module-smriprep.workflows.surfaces" title="Permalink to this headline"></a></h1>
 <p>Surface preprocessing workflows.</p>
 <p><strong>sMRIPrep</strong> uses FreeSurfer to reconstruct surfaces from T1w/T2w
 structural images.</p>
-<dl class="function">
-<dt id="smriprep.workflows.surfaces.init_autorecon_resume_wf">
-<code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_autorecon_resume_wf</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">name='autorecon_resume_wf'</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="smriprep.workflows.surfaces.init_autorecon_resume_wf">
+<span class="sig-prename descclassname"><span class="pre">smriprep.workflows.surfaces.</span></span><span class="sig-name descname"><span class="pre">init_autorecon_resume_wf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omp_nthreads</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'autorecon_resume_wf'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="Permalink to this definition"></a></dt>
 <dd><p>Resume recon-all execution, assuming the <cite>-autorecon1</cite> stage has been completed.</p>
 <p>In order to utilize resources efficiently, this is broken down into seven
 sub-stages; after the first stage, the second and third stages may be run
@@ -160,9 +161,9 @@ race conditions, as it is a volumetric operation.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="smriprep.workflows.surfaces.init_gifti_surface_wf">
-<code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_gifti_surface_wf</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">name='gifti_surface_wf'</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.surfaces.init_gifti_surface_wf" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="smriprep.workflows.surfaces.init_gifti_surface_wf">
+<span class="sig-prename descclassname"><span class="pre">smriprep.workflows.surfaces.</span></span><span class="sig-name descname"><span class="pre">init_gifti_surface_wf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gifti_surface_wf'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.surfaces.init_gifti_surface_wf" title="Permalink to this definition"></a></dt>
 <dd><p>Prepare GIFTI surfaces from a FreeSurfer subjects directory.</p>
 <p>If midthickness (or graymid) surfaces do not exist, they are generated and
 saved to the subject directory as <code class="docutils literal notranslate"><span class="pre">lh/rh.midthickness</span></code>.
@@ -192,9 +193,9 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="smriprep.workflows.surfaces.init_segs_to_native_wf">
-<code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_segs_to_native_wf</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">name='segs_to_native'</em>, <em class="sig-param">segmentation='aseg'</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.surfaces.init_segs_to_native_wf" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="smriprep.workflows.surfaces.init_segs_to_native_wf">
+<span class="sig-prename descclassname"><span class="pre">smriprep.workflows.surfaces.</span></span><span class="sig-name descname"><span class="pre">init_segs_to_native_wf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'segs_to_native'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segmentation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'aseg'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.surfaces.init_segs_to_native_wf" title="Permalink to this definition"></a></dt>
 <dd><p>Get a segmentation from FreeSurfer conformed space into native T1w space.</p>
 <dl>
 <dt>Workflow Graph</dt><dd><figure class="align-default">
@@ -221,9 +222,9 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="smriprep.workflows.surfaces.init_surface_recon_wf">
-<code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_surface_recon_wf</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">hires</em>, <em class="sig-param">name='surface_recon_wf'</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.surfaces.init_surface_recon_wf" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="smriprep.workflows.surfaces.init_surface_recon_wf">
+<span class="sig-prename descclassname"><span class="pre">smriprep.workflows.surfaces.</span></span><span class="sig-name descname"><span class="pre">init_surface_recon_wf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omp_nthreads</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hires</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'surface_recon_wf'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.surfaces.init_surface_recon_wf" title="Permalink to this definition"></a></dt>
 <dd><p>Reconstruct anatomical surfaces using FreeSurfer’s <code class="docutils literal notranslate"><span class="pre">recon-all</span></code>.</p>
 <p>Reconstruction is performed in three phases.
 The first phase initializes the subject with T1w and T2w (if available)

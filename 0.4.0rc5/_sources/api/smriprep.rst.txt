@@ -10,6 +10,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 1
 
    smriprep.cli
    smriprep.interfaces

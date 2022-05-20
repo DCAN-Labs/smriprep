@@ -4,17 +4,18 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; smriprep 0.8.3 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <title>Installation &mdash; smriprep 0.8.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/banner.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -95,7 +96,7 @@
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../master/installation.html"><b>Warning:</b> This document is for the development version of smriprep. The main version is master.</a></p>
 <section id="id1">
-<h1>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>Installation<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h1>
 <p>There are two ways of getting <em>sMRIPrep</em> installed:</p>
 <ul class="simple">
 <li><p>within a <a class="reference internal" href="#manually-prepared-environment-python-3-5">Manually Prepared Environment (Python 3.5+)</a>, also known as
@@ -127,12 +128,12 @@ The command-line structure above is then modified as follows:</p>
 the command line is the same as for the <em>bare-metal</em> installation but dropping
 the <code class="docutils literal notranslate"><span class="pre">smriprep</span></code> executable name.</p>
 <section id="container-technologies-docker-and-singularity">
-<h2>Container technologies: Docker and Singularity<a class="headerlink" href="#container-technologies-docker-and-singularity" title="Permalink to this headline">¶</a></h2>
+<h2>Container technologies: Docker and Singularity<a class="headerlink" href="#container-technologies-docker-and-singularity" title="Permalink to this headline"></a></h2>
 <p>Container technologies are operating-system-level virtualization methods to run Linux systems
 using the host’s Linux kernel.
 This is a lightweight approach to virtualization, as compares to virtual machines.</p>
 <section id="docker-recommended-for-pc-laptop-and-commercial-cloud">
-<span id="installation-docker"></span><h3>Docker (recommended for PC/laptop and commercial Cloud)<a class="headerlink" href="#docker-recommended-for-pc-laptop-and-commercial-cloud" title="Permalink to this headline">¶</a></h3>
+<span id="installation-docker"></span><h3>Docker (recommended for PC/laptop and commercial Cloud)<a class="headerlink" href="#docker-recommended-for-pc-laptop-and-commercial-cloud" title="Permalink to this headline"></a></h3>
 <p>Probably, the most popular framework to execute containers is Docker.
 If you are to run <em>sMRIPrep</em> on your PC/laptop, this is the RECOMMENDED way of execution.
 Please make sure you follow the <a class="reference external" href="https://docs.docker.com/install/">Docker installation</a> instructions.
@@ -169,7 +170,7 @@ to run the <em>sMRIPrep</em> image.
 The list of Docker images ready to use is found at the <a class="reference external" href="https://hub.docker.com/r/nipreps/smriprep/tags">Docker Hub</a>,
 under the <code class="docutils literal notranslate"><span class="pre">nipreps/smriprep</span></code> identifier.</p>
 <section id="the-smriprep-docker-wrapper">
-<h4>The <code class="docutils literal notranslate"><span class="pre">smriprep-docker</span></code> wrapper<a class="headerlink" href="#the-smriprep-docker-wrapper" title="Permalink to this headline">¶</a></h4>
+<h4>The <code class="docutils literal notranslate"><span class="pre">smriprep-docker</span></code> wrapper<a class="headerlink" href="#the-smriprep-docker-wrapper" title="Permalink to this headline"></a></h4>
 <p>This is the easiest way to <a class="reference external" href="https://fmriprep.readthedocs.io/en/stable/docker.html#running-smriprep-with-the-smriprep-docker-wrapper">run sMRIPrep using Docker</a>.
 The <a class="reference external" href="https://pypi.python.org/pypi/smriprep-docker">Docker wrapper</a> is a Python script that operates the Docker Engine seamlessly
 as if you were running <code class="docutils literal notranslate"><span class="pre">smriprep</span></code> directly.
@@ -183,7 +184,7 @@ Install the wrapper using a Python distribution system, e.g.:</p>
 </section>
 </section>
 <section id="singularity-recommended-for-hpc">
-<h3>Singularity (recommended for HPC)<a class="headerlink" href="#singularity-recommended-for-hpc" title="Permalink to this headline">¶</a></h3>
+<h3>Singularity (recommended for HPC)<a class="headerlink" href="#singularity-recommended-for-hpc" title="Permalink to this headline"></a></h3>
 <p>For security reasons, many <abbr title="High-Performance Computing">HPCs</abbr> (e.g., <a class="reference external" href="https://www.tacc.utexas.edu/">TACC</a>)
 do not allow Docker containers, but do allow <a class="reference external" href="https://github.com/singularityware/singularity">Singularity</a> containers.
 The improved security for multi-tenant systems comes at the price of some limitations
@@ -192,7 +193,7 @@ Please make sure you <a class="reference external" href="singularity.html">follo
 </section>
 </section>
 <section id="manually-prepared-environment-python-3-5">
-<h2>Manually Prepared Environment (Python 3.5+)<a class="headerlink" href="#manually-prepared-environment-python-3-5" title="Permalink to this headline">¶</a></h2>
+<h2>Manually Prepared Environment (Python 3.5+)<a class="headerlink" href="#manually-prepared-environment-python-3-5" title="Permalink to this headline"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This method is not recommended! Please checkout container alternatives
@@ -215,7 +216,7 @@ As an additional installation setting, FreeSurfer requires a license file (see <
 </pre></div>
 </div>
 <section id="external-dependencies">
-<h3>External Dependencies<a class="headerlink" href="#external-dependencies" title="Permalink to this headline">¶</a></h3>
+<h3>External Dependencies<a class="headerlink" href="#external-dependencies" title="Permalink to this headline"></a></h3>
 <p><em>sMRIPrep</em> is written using Python 3.5 (or above), and is based on
 <a class="reference external" href="http://nipype.readthedocs.io/en/latest/">nipype</a>.</p>
 <p><em>sMRIPrep</em> requires some other neuroimaging software tools that are

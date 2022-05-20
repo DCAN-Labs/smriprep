@@ -4,17 +4,18 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>smriprep.interfaces.reports module &mdash; smriprep 0.8.3 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>smriprep.interfaces.reports module &mdash; smriprep 0.8.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -97,68 +98,68 @@
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/smriprep.interfaces.reports.html"><b>Warning:</b> This document is for an old version of smriprep. The main version is master.</a></p>
 <section id="module-smriprep.interfaces.reports">
-<span id="smriprep-interfaces-reports-module"></span><h1>smriprep.interfaces.reports module<a class="headerlink" href="#module-smriprep.interfaces.reports" title="Permalink to this headline">¶</a></h1>
+<span id="smriprep-interfaces-reports-module"></span><h1>smriprep.interfaces.reports module<a class="headerlink" href="#module-smriprep.interfaces.reports" title="Permalink to this headline"></a></h1>
 <p>Interfaces to generate reportlets.</p>
-<dl class="class">
-<dt id="smriprep.interfaces.reports.AboutSummary">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">AboutSummary</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.reports.AboutSummary" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.AboutSummary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smriprep.interfaces.reports.</span></span><span class="sig-name descname"><span class="pre">AboutSummary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.reports.AboutSummary" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#smriprep.interfaces.reports.SummaryInterface" title="smriprep.interfaces.reports.SummaryInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports.SummaryInterface</span></code></a></p>
 <p>About section reportlet.</p>
-<dl class="attribute">
-<dt id="smriprep.interfaces.reports.AboutSummary.input_spec">
-<code class="sig-name descname">input_spec</code><a class="headerlink" href="#smriprep.interfaces.reports.AboutSummary.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_AboutSummaryInputSpec</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.AboutSummary.input_spec">
+<span class="sig-name descname"><span class="pre">input_spec</span></span><a class="headerlink" href="#smriprep.interfaces.reports.AboutSummary.input_spec" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports._AboutSummaryInputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="smriprep.interfaces.reports.FSSurfaceReport">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">FSSurfaceReport</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.FSSurfaceReport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smriprep.interfaces.reports.</span></span><span class="sig-name descname"><span class="pre">FSSurfaceReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Replaces <code class="docutils literal notranslate"><span class="pre">ReconAllRPT</span></code>, without need of calling recon-all.</p>
-<dl class="attribute">
-<dt id="smriprep.interfaces.reports.FSSurfaceReport.input_spec">
-<code class="sig-name descname">input_spec</code><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FSSurfaceReportInputSpec</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.FSSurfaceReport.input_spec">
+<span class="sig-name descname"><span class="pre">input_spec</span></span><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport.input_spec" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports._FSSurfaceReportInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="smriprep.interfaces.reports.FSSurfaceReport.output_spec">
-<code class="sig-name descname">output_spec</code><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FSSurfaceReportOutputSpec</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.FSSurfaceReport.output_spec">
+<span class="sig-name descname"><span class="pre">output_spec</span></span><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport.output_spec" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports._FSSurfaceReportOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="smriprep.interfaces.reports.SubjectSummary">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">SubjectSummary</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.SubjectSummary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smriprep.interfaces.reports.</span></span><span class="sig-name descname"><span class="pre">SubjectSummary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#smriprep.interfaces.reports.SummaryInterface" title="smriprep.interfaces.reports.SummaryInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports.SummaryInterface</span></code></a></p>
 <p>Subject html summary reportlet.</p>
-<dl class="attribute">
-<dt id="smriprep.interfaces.reports.SubjectSummary.input_spec">
-<code class="sig-name descname">input_spec</code><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_SubjectSummaryInputSpec</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.SubjectSummary.input_spec">
+<span class="sig-name descname"><span class="pre">input_spec</span></span><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary.input_spec" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports._SubjectSummaryInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="smriprep.interfaces.reports.SubjectSummary.output_spec">
-<code class="sig-name descname">output_spec</code><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_SubjectSummaryOutputSpec</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.SubjectSummary.output_spec">
+<span class="sig-name descname"><span class="pre">output_spec</span></span><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary.output_spec" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports._SubjectSummaryOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="smriprep.interfaces.reports.SummaryInterface">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">SummaryInterface</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.reports.SummaryInterface" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.SummaryInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smriprep.interfaces.reports.</span></span><span class="sig-name descname"><span class="pre">SummaryInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.reports.SummaryInterface" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Base Nipype interface for html summaries.</p>
-<dl class="attribute">
-<dt id="smriprep.interfaces.reports.SummaryInterface.output_spec">
-<code class="sig-name descname">output_spec</code><a class="headerlink" href="#smriprep.interfaces.reports.SummaryInterface.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_SummaryOutputSpec</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smriprep.interfaces.reports.SummaryInterface.output_spec">
+<span class="sig-name descname"><span class="pre">output_spec</span></span><a class="headerlink" href="#smriprep.interfaces.reports.SummaryInterface.output_spec" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports._SummaryOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
