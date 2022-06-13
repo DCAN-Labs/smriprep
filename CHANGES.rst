@@ -1,3 +1,11 @@
+0.9.1 (June 13, 2022)
+=====================
+Bug-fix release in the 0.9.x series. This release contains no changes to code,
+but does patch the Docker image not to fail during recon-all of high resolution
+(<1mm) T1w images.
+
+  * FIX: Re-add fsr-checkxopts to Docker image (#287)
+
 0.9.0 (May 26, 2022)
 ====================
 A new minor release incorporating support for FreeSurfer 7.2.
