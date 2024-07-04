@@ -589,8 +589,12 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
         GIFTIs of cortical thickness, curvature, and sulcal depth
 
     """
+    from niworkflows.interfaces.utility import KeySelect
+    from niworkflows.interfaces.workbench import MetricDilate
     from ..interfaces.freesurfer import MRIsConvertData
     from ..interfaces.surf import NormalizeSurf
+    from ..interfaces.gifti import MetricMath
+    
 
     workflow = Workflow(name=name)
 
@@ -598,7 +602,9 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
         niu.IdentityInterface(["subjects_dir", "subject_id", "fsnative2t1w_xfm"]),
         name="inputnode",
     )
+    join_morphs = pe.JoinNode(niu.IdentityInterface(["morphometrics"]), name="join_morphs", joinsource="itersource")
     outputnode = pe.Node(niu.IdentityInterface(["surfaces", "morphometrics"]), name="outputnode")
+
 
     get_surfaces = pe.Node(nio.FreeSurferSource(), name="get_surfaces")
 
@@ -626,15 +632,95 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
         name="surfmorph_list",
         run_without_submitting=True,
     )
-    morphs2gii = pe.MapNode(
+    #morphs2gii = pe.MapNode(
+    #    MRIsConvertData(out_datatype="gii"),
+    #    iterfield="scalarcurv_file", name="morphs2gii_thickness",
+    #)
+    morphs2gii_thickness = pe.Node(
         MRIsConvertData(out_datatype="gii"),
-        iterfield="scalarcurv_file", name="morphs2gii",
+        name="morphs2gii_thickness",
     )
+    morphs2gii_sulc = pe.Node(
+        MRIsConvertData(out_datatype="gii"),
+        name="morphs2gii_sulc",
+    )
+    morphs2gii_curv = pe.Node(
+        MRIsConvertData(out_datatype="gii"),
+        name="morphs2gii_curv",
+    )
+	
+    # HCP inverts curvature and sulcal depth relative to FreeSurfer
+    invert_curv = pe.Node(MetricMath(metric='curv', operation='invert'), name='invert_curv')
+    invert_sulc = pe.Node(MetricMath(metric='sulc', operation='invert'), name='invert_sulc')
+    # Thickness is presumably already positive, but HCP uses abs(-thickness)
+    abs_thickness = pe.Node(MetricMath(metric='thickness', operation='abs'), name='abs_thickness')
+
+
+    # Dilation happens separately from ROI creation
+    dilate_curv = pe.Node(
+        MetricDilate(distance=10, nearest=True),
+        name='dilate_curv'
+    )
+    dilate_thickness = pe.Node(
+        MetricDilate(distance=10, nearest=True),
+        name='dilate_thickness'
+    )
+
+    itersource = pe.Node(
+        niu.IdentityInterface(fields=['hemi']),
+        name='itersource',
+        iterables=[('hemi', ['L', 'R'])],
+    )
+
+    select_surfaces = pe.Node(
+        KeySelect(
+            fields=[
+                'thickness',
+                'curv',
+                'sulc',
+                'midthickness'
+            ],
+            keys=['L', 'R'],
+        ),
+        name='select_surfaces',
+        run_without_submitting=True,
+    )
+
+    select_mid = pe.Node(
+        niu.Select(index=[3]),
+        name="select_mid",
+        run_without_submitting=True,
+    )
+
+    subject_midthickness = pe.Node(
+        niu.Function(function=_get_surf),
+        name="get_midthickness",
+        run_without_submitting=True,
+    )
+    subject_midthickness.inputs.name = "midthickness"
+    subject_midthickness.inputs.mult = 1
+
+    select_first = pe.Node(
+        niu.Select(index=[0]),
+        name="select_first",
+        run_without_submitting=True,
+    )
+
+    select_second = pe.Node(
+        niu.Select(index=[1]),
+        name="select_second",
+        run_without_submitting=True,
+    )
+
+    merge_morpho = pe.Node(niu.Merge(2), name='merge_morpho', run_without_submitting=True)
 
     # fmt:off
     workflow.connect([
         (inputnode, get_surfaces, [('subjects_dir', 'subjects_dir'),
                                    ('subject_id', 'subject_id')]),
+        (inputnode, invert_curv, [('subject_id', 'subject_id')]),
+        (inputnode, invert_sulc, [('subject_id', 'subject_id')]),
+        (inputnode, abs_thickness, [('subject_id', 'subject_id')]),
         (inputnode, save_midthickness, [('subjects_dir', 'base_directory'),
                                         ('subject_id', 'container')]),
         # Generate midthickness surfaces and save to FreeSurfer derivatives
@@ -650,11 +736,34 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
         (fs2gii, fix_surfs, [('converted', 'in_file')]),
         (inputnode, fix_surfs, [('fsnative2t1w_xfm', 'transform_file')]),
         (fix_surfs, outputnode, [('out_file', 'surfaces')]),
-        (get_surfaces, surfmorph_list, [('thickness', 'in1'),
-                                        ('sulc', 'in2'),
-                                        ('curv', 'in3')]),
-        (surfmorph_list, morphs2gii, [('out', 'scalarcurv_file')]),
-        (morphs2gii, outputnode, [('converted', 'morphometrics')]),
+        (fix_surfs, subject_midthickness, [('out_file', 'surfaces')]),
+	(get_surfaces, select_surfaces, [('thickness', 'thickness')]),
+	(get_surfaces, select_surfaces, [('sulc', 'sulc')]),
+	(get_surfaces, select_surfaces, [('curv', 'curv')]),
+	(subject_midthickness, select_surfaces, [('out', 'midthickness')]),
+        (itersource, select_surfaces, [('hemi', 'key')]),
+        (itersource, invert_curv, [('hemi', 'hemisphere')]),
+        (itersource, invert_sulc, [('hemi', 'hemisphere')]),
+        (itersource, abs_thickness, [('hemi', 'hemisphere')]),
+	(select_surfaces, morphs2gii_thickness, [('thickness', 'scalarcurv_file')]),
+	(select_surfaces, morphs2gii_sulc, [('sulc', 'scalarcurv_file')]),
+	(select_surfaces, morphs2gii_curv, [('curv', 'scalarcurv_file')]),
+        (morphs2gii_curv, invert_curv, [('converted', 'metric_file')]),
+        (morphs2gii_sulc, invert_sulc, [('converted', 'metric_file')]),
+        (morphs2gii_thickness, abs_thickness, [('converted', 'metric_file')]),
+        (select_surfaces, dilate_curv, [('midthickness', 'surf_file')]),
+        (select_surfaces, dilate_thickness, [('midthickness', 'surf_file')]),
+        (invert_curv, dilate_curv, [('metric_file', 'in_file')]),
+        (abs_thickness, dilate_thickness, [('metric_file', 'in_file')]),
+        (dilate_curv, surfmorph_list, [('out_file', 'in2')]),
+        (dilate_thickness, surfmorph_list, [('out_file', 'in1')]),
+        (invert_sulc, surfmorph_list, [('metric_file', 'in3')]),
+        (surfmorph_list, join_morphs, [('out', 'morphometrics')]), 
+        (join_morphs, select_first, [('morphometrics', 'inlist')]),
+        (join_morphs, select_second, [('morphometrics', 'inlist')]),
+        (select_first, merge_morpho, [('out', 'in1')]),
+        (select_second, merge_morpho, [('out', 'in2')]),
+        (merge_morpho, outputnode, [('out', 'morphometrics')])
     ])
     # fmt:on
     return workflow
@@ -1110,3 +1219,11 @@ def _sorted_by_basename(inlist):
 
 def _collate(files):
     return [files[i:i + 2] for i in range(0, len(files), 2)]
+
+def _get_surf(surfaces, name, mult=1):
+    from smriprep.workflows.surfaces import _sorted_by_basename
+
+    "Select a specific surface by name, and optionally multiple it."
+    if not surfaces:
+        return surfaces
+    return [surf for surf in _sorted_by_basename(surfaces) if name in surf] * mult
