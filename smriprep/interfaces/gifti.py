@@ -83,8 +83,8 @@ class MetricMath(SimpleInterface):
             meta=meta,
         )
         img.darrays[0] = darray
-
-        out_filename = os.path.join(runtime.cwd, f'{subject}.{hemi}.{metric}.native.shape.gii')
+        hemi_lower = hemi.lower()
+        out_filename = os.path.join(runtime.cwd, f'{hemi_lower}h.{metric}.native.shape.gii')
         img.to_filename(out_filename)
         self._results['metric_file'] = out_filename
         return runtime
