@@ -50,6 +50,12 @@ from niworkflows.interfaces.freesurfer import (
     RefineBrainMask,
 )
 from ..interfaces.workbench import CreateSignedDistanceVolume
+from niworkflows.interfaces.workbench import (
+    MetricDilate,
+    MetricMask,
+    MetricResample,
+)
+
 
 
 def init_surface_recon_wf(*, omp_nthreads, hires, name="surface_recon_wf"):
@@ -209,6 +215,7 @@ gray-matter of Mindboggle [RRID:SCR_002438, @mindboggle].
                 "out_aseg",
                 "out_aparc",
                 "morphometrics",
+                "roi"
             ]
         ),
         name="outputnode",
@@ -296,7 +303,8 @@ gray-matter of Mindboggle [RRID:SCR_002438, @mindboggle].
         (autorecon_resume_wf, outputnode, [('outputnode.subjects_dir', 'subjects_dir'),
                                            ('outputnode.subject_id', 'subject_id')]),
         (gifti_surface_wf, outputnode, [('outputnode.surfaces', 'surfaces'),
-                                        ('outputnode.morphometrics', 'morphometrics')]),
+                                        ('outputnode.morphometrics', 'morphometrics'),
+                                        ('outputnode.roi', 'roi')]),
         (t1w2fsnative_xfm, outputnode, [('out_lta', 't1w2fsnative_xfm')]),
         (fsnative2t1w_xfm, outputnode, [('out_reg_file', 'fsnative2t1w_xfm')]),
         (refine, outputnode, [('out_file', 'out_brainmask')]),
@@ -589,11 +597,12 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
         GIFTIs of cortical thickness, curvature, and sulcal depth
 
     """
+    from nipype.interfaces.base import File
     from niworkflows.interfaces.utility import KeySelect
     from niworkflows.interfaces.workbench import MetricDilate
     from ..interfaces.freesurfer import MRIsConvertData
     from ..interfaces.surf import NormalizeSurf
-    from ..interfaces.gifti import MetricMath
+    from ..interfaces.gifti import MetricMath, MetricFillHoles, MetricRemoveIslands
     
 
     workflow = Workflow(name=name)
@@ -603,7 +612,7 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
         name="inputnode",
     )
     join_morphs = pe.JoinNode(niu.IdentityInterface(["morphometrics"]), name="join_morphs", joinsource="itersource")
-    outputnode = pe.Node(niu.IdentityInterface(["surfaces", "morphometrics"]), name="outputnode")
+    outputnode = pe.Node(niu.IdentityInterface(["surfaces", "morphometrics", "roi"]), name="outputnode")
 
 
     get_surfaces = pe.Node(nio.FreeSurferSource(), name="get_surfaces")
@@ -628,7 +637,7 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
     )
     fix_surfs = pe.MapNode(NormalizeSurf(), iterfield="in_file", name="fix_surfs")
     surfmorph_list = pe.Node(
-        niu.Merge(3, ravel_inputs=True),
+        niu.Merge(4, ravel_inputs=True),
         name="surfmorph_list",
         run_without_submitting=True,
     )
@@ -665,6 +674,14 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
         MetricDilate(distance=10, nearest=True),
         name='dilate_thickness'
     )
+
+    # Native ROI is thickness > 0, with holes and islands filled
+
+
+    initial_roi = pe.Node(MetricMath(metric='roi', operation='bin'), name='initial_roi')
+    fill_holes = pe.Node(MetricFillHoles(), name='fill_holes')
+    native_roi = pe.Node(MetricRemoveIslands(), name='native_roi')
+
 
     itersource = pe.Node(
         niu.IdentityInterface(fields=['hemi']),
@@ -712,6 +729,18 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
         run_without_submitting=True,
     )
 
+    select_non_roi = pe.Node(
+        niu.Select(index=[0,1,2,4,5,6]),
+        name="select_non_roi",
+        run_without_submitting=True,
+    )
+
+    select_roi = pe.Node(
+        niu.Select(index=[3,7]),
+        name="select_roi",
+        run_without_submitting=True,
+    )
+
     merge_morpho = pe.Node(niu.Merge(2), name='merge_morpho', run_without_submitting=True)
 
     # fmt:off
@@ -755,15 +784,26 @@ def init_gifti_surface_wf(*, name="gifti_surface_wf"):
         (select_surfaces, dilate_thickness, [('midthickness', 'surf_file')]),
         (invert_curv, dilate_curv, [('metric_file', 'in_file')]),
         (abs_thickness, dilate_thickness, [('metric_file', 'in_file')]),
+        (inputnode, initial_roi, [('subject_id', 'subject_id')]),
+        (itersource, initial_roi, [('hemi', 'hemisphere')]),
+        (abs_thickness, initial_roi, [('metric_file', 'metric_file')]),
+        (select_surfaces, fill_holes, [('midthickness', 'surface_file')]),
+        (select_surfaces, native_roi, [('midthickness', 'surface_file')]),
+        (initial_roi, fill_holes, [('metric_file', 'metric_file')]),
+        (fill_holes, native_roi, [('out_file', 'metric_file')]),
         (dilate_curv, surfmorph_list, [('out_file', 'in2')]),
         (dilate_thickness, surfmorph_list, [('out_file', 'in1')]),
         (invert_sulc, surfmorph_list, [('metric_file', 'in3')]),
+        (native_roi, surfmorph_list, [('out_file', 'in4')]),
         (surfmorph_list, join_morphs, [('out', 'morphometrics')]), 
         (join_morphs, select_first, [('morphometrics', 'inlist')]),
         (join_morphs, select_second, [('morphometrics', 'inlist')]),
         (select_first, merge_morpho, [('out', 'in1')]),
         (select_second, merge_morpho, [('out', 'in2')]),
-        (merge_morpho, outputnode, [('out', 'morphometrics')])
+        (merge_morpho, select_roi, [('out', 'inlist')]),
+        (merge_morpho, select_non_roi, [('out', 'inlist')]),
+        (select_non_roi, outputnode, [('out', 'morphometrics')]),
+        (select_roi, outputnode, [('out', 'roi')])
     ])
     # fmt:on
     return workflow
@@ -1227,3 +1267,4 @@ def _get_surf(surfaces, name, mult=1):
     if not surfaces:
         return surfaces
     return [surf for surf in _sorted_by_basename(surfaces) if name in surf] * mult
+
