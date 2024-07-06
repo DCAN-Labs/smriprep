@@ -4,6 +4,7 @@ import os
 
 import nibabel as nb
 from nipype.interfaces.base import File, SimpleInterface, TraitedSpec, isdefined, traits
+from nipype.interfaces.workbench.base import WBCommand
 
 
 class MetricMathInputSpec(TraitedSpec):
@@ -88,3 +89,136 @@ class MetricMath(SimpleInterface):
         img.to_filename(out_filename)
         self._results['metric_file'] = out_filename
         return runtime
+
+class MetricFillHolesInputSpec(TraitedSpec):
+    """FILL HOLES IN AN ROI METRIC
+
+    wb_command -metric-fill-holes
+       <surface> - the surface to use for neighbor information
+       <metric-in> - the input ROI metric
+       <metric-out> - output - the output ROI metric
+
+       [-corrected-areas] - vertex areas to use instead of computing them from
+          the surface
+          <area-metric> - the corrected vertex areas, as a metric
+
+       Finds all connected areas that are not included in the ROI, and writes
+       ones into all but the largest one, in terms of surface area."""
+
+    surface_file = File(
+        mandatory=True,
+        exists=True,
+        argstr="%s",
+        position=1,
+        desc="surface to use for neighbor information",
+    )
+    metric_file = File(
+        mandatory=True,
+        exists=True,
+        argstr="%s",
+        position=2,
+        desc="input ROI metric",
+    )
+    out_file = File(
+        name_template="%s_filled.shape.gii",
+        name_source="metric_file",
+        keep_extension=False,
+        argstr="%s",
+        position=3,
+        desc="output ROI metric",
+    )
+    corrected_areas = File(
+        exists=True,
+        argstr="-corrected-areas %s",
+        desc="vertex areas to use instead of computing them from the surface",
+    )
+
+
+class MetricFillHolesOutputSpec(TraitedSpec):
+    out_file = File(desc="output ROI metric")
+
+
+class MetricFillHoles(WBCommand):
+    """Fill holes in an ROI metric.
+
+    Examples
+
+    >>> from niworkflows.interfaces.workbench import MetricFillHoles
+    >>> fill_holes = MetricFillHoles()
+    >>> fill_holes.inputs.surface_file = 'lh.midthickness.surf.gii'
+    >>> fill_holes.inputs.metric_file = 'lh.roi.shape.gii'
+    >>> fill_holes.cmdline  # doctest: +NORMALIZE_WHITESPACE
+    'wb_command -metric-fill-holes lh.midthickness.surf.gii lh.roi.shape.gii \
+    lh.roi.shape_filled.shape.gii'
+    """
+
+    input_spec = MetricFillHolesInputSpec
+    output_spec = MetricFillHolesOutputSpec
+    _cmd = "wb_command -metric-fill-holes"
+
+
+class MetricRemoveIslandsInputSpec(TraitedSpec):
+    """REMOVE ISLANDS IN AN ROI METRIC
+
+    wb_command -metric-remove-islands
+       <surface> - the surface to use for neighbor information
+       <metric-in> - the input ROI metric
+       <metric-out> - output - the output ROI metric
+
+       [-corrected-areas] - vertex areas to use instead of computing them from
+          the surface
+          <area-metric> - the corrected vertex areas, as a metric
+
+    Finds all connected areas in the ROI, and zeros out all but the largest
+    one, in terms of surface area."""
+
+    surface_file = File(
+        mandatory=True,
+        exists=True,
+        argstr="%s",
+        position=1,
+        desc="surface to use for neighbor information",
+    )
+    metric_file = File(
+        mandatory=True,
+        exists=True,
+        argstr="%s",
+        position=2,
+        desc="input ROI metric",
+    )
+    out_file = File(
+        name_template="%s_noislands.shape.gii",
+        name_source="metric_file",
+        keep_extension=False,
+        argstr="%s",
+        position=3,
+        desc="output ROI metric",
+    )
+    corrected_areas = File(
+        exists=True,
+        argstr="-corrected-areas %s",
+        desc="vertex areas to use instead of computing them from the surface",
+    )
+
+
+class MetricRemoveIslandsOutputSpec(TraitedSpec):
+    out_file = File(desc="output ROI metric")
+
+
+class MetricRemoveIslands(WBCommand):
+    """Remove islands in an ROI metric.
+
+    Examples
+
+    >>> from niworkflows.interfaces.workbench import MetricRemoveIslands
+    >>> remove_islands = MetricRemoveIslands()
+    >>> remove_islands.inputs.surface_file = 'lh.midthickness.surf.gii'
+    >>> remove_islands.inputs.metric_file = 'lh.roi.shape.gii'
+    >>> remove_islands.cmdline  # doctest: +NORMALIZE_WHITESPACE
+    'wb_command -metric-remove-islands lh.midthickness.surf.gii \
+    lh.roi.shape.gii lh.roi.shape_noislands.shape.gii'
+    """
+
+    input_spec = MetricRemoveIslandsInputSpec
+    output_spec = MetricRemoveIslandsOutputSpec
+    _cmd = "wb_command -metric-remove-islands"
